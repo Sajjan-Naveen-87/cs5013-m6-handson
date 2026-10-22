@@ -1,5 +1,7 @@
 # Session 6B: Agentic mini-pipeline (reflection)
 
+**Repository:** https://github.com/Sajjan-Naveen-87/cs5013-m6-handson (Session 6B is in `m6-lab-b/`)
+
 **Setup.** OpenJDK 21, langchain4j 0.36.0 (`make langchain4j`).
 - **LLM:** `OllamaLlm` with **llama3.2:3b** (the 8 GB-RAM model from the handout), temperature 0, run locally by Ollama 0.40.4 on a Quadro P4000 GPU.
 - **Default budgets:** 8 steps and an unlimited token budget, unless an experiment says otherwise.
