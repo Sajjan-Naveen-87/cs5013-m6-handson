@@ -1,0 +1,22 @@
+QUERY: Which books in the catalogue were published in the 1990s?
+PROMPT TEMPLATE: prompts/react-vague3-noformat.txt
+BUDGETS: steps=8, tokens=unlimited
+
+=== step 1 (prompt 1139 chars; this call 358 tok; total 358 tok)
+Thought: I need to filter the catalogue by publication year.
+Action: search_books
+Action Input: |1990|1999
+[tool] search_books("|1990|1999") -> 574 chars
+Observation: [
+  {"id": "b008", "title": "Parable of the Sower", "author": "Octavia E. Butler", "year": 1993, "genre": "science fiction"},
+  {"id": "b016", "title": "Snow Crash", "author": "Neal Stephenson", "year": 1992, "genre": "science fiction"},
+  {"id": "b017", "title": "Cryptonomicon", "author": "Neal Stephenson", "year": 1999, "genre": "science fiction"},
+  {"id": "b024", "title": "The God of Small Things", "author": "Arundhati Roy", "year": 1997, "genre": "literary"},
+  {"id": "b027", "title": "A Suitable Boy", "author": "Vikram Seth", "year": 1993, "genre": "literary"}
+]
+=== step 2 (prompt 1834 chars; this call 618 tok; total 976 tok)
+Thought: The observation lists 5 books published in the 1990s.
+Final Answer: 5 (Parable of the Sower, Snow Crash, Cryptonomicon, The God of Small Things, A Suitable Boy)
+
+STOP: FINAL_ANSWER | LLM calls: 2 | tool calls: 1 | tokens: 976
+  search_books("|1990|1999") -> 574 chars

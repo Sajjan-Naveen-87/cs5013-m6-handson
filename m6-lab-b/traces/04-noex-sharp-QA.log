@@ -1,0 +1,20 @@
+QUERY: How many books did Ursula Le Guin write in the 1970s?
+PROMPT TEMPLATE: prompts/react-noex-sharp.txt
+BUDGETS: steps=8, tokens=unlimited
+
+=== step 1 (prompt 999 chars; this call 310 tok; total 310 tok)
+Form A
+Thought: The query requires a specific author and a decade.
+Action: search_books
+Action Input: Ursula Le Guin|1970|1979
+[tool] search_books("Ursula Le Guin|1970|1979") -> 122 chars
+Observation: [
+  {"id": "b002", "title": "The Dispossessed", "author": "Ursula K. Le Guin", "year": 1974, "genre": "science fiction"}
+]
+=== step 2 (prompt 1262 chars; this call 389 tok; total 699 tok)
+Form B
+Thought: The observation provides a single book matching the query.
+Final Answer: 1
+
+STOP: FINAL_ANSWER | LLM calls: 2 | tool calls: 1 | tokens: 699
+  search_books("Ursula Le Guin|1970|1979") -> 122 chars

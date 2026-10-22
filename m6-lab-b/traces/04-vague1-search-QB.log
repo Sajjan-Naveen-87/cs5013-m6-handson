@@ -1,0 +1,16 @@
+QUERY: Which books in the catalogue were published in the 1990s?
+PROMPT TEMPLATE: prompts/react-vague1-search.txt
+BUDGETS: steps=8, tokens=unlimited
+
+=== step 1 (prompt 1199 chars; this call 372 tok; total 372 tok)
+Thought: I need to filter the catalogue by publication year.
+Action: search_books
+Action Input: year_from|1990|1999
+[tool] search_books("year_from|1990|1999") -> 2 chars
+Observation: []
+=== step 2 (prompt 1331 chars; this call 403 tok; total 775 tok)
+Thought: The search query did not find any matching books.
+Final Answer: 0
+
+STOP: FINAL_ANSWER | LLM calls: 2 | tool calls: 1 | tokens: 775
+  search_books("year_from|1990|1999") -> 2 chars

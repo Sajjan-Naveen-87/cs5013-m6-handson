@@ -1,0 +1,31 @@
+QUERY: In which decades did Octavia E. Butler, Neal Stephenson, Neil Gaiman and Brandon Sanderson publish books?
+PROMPT TEMPLATE: prompts/react.txt
+BUDGETS: steps=3, tokens=unlimited
+
+=== step 1 (prompt 1418 chars; this call 431 tok; total 431 tok)
+Thought: I need to filter books by authors and years.
+Action: search_books
+Action Input: Octavia E. Butler| |
+[tool] search_books("Octavia E. Butler| |") -> 237 chars
+Observation: [
+  {"id": "b007", "title": "Kindred", "author": "Octavia E. Butler", "year": 1979, "genre": "science fiction"},
+  {"id": "b008", "title": "Parable of the Sower", "author": "Octavia E. Butler", "year": 1993, "genre": "science fiction"}
+]
+=== step 2 (prompt 1779 chars; this call 560 tok; total 991 tok)
+Thought: The observation lists books by Octavia E. Butler, but not the other authors.
+Action: search_books
+Action Input: Neal Stephenson| |
+[tool] search_books("Neal Stephenson| |") -> 229 chars
+Observation: [
+  {"id": "b016", "title": "Snow Crash", "author": "Neal Stephenson", "year": 1992, "genre": "science fiction"},
+  {"id": "b017", "title": "Cryptonomicon", "author": "Neal Stephenson", "year": 1999, "genre": "science fiction"}
+]
+=== step 3 (prompt 2162 chars; this call 681 tok; total 1672 tok)
+Thought: The observation lists books by Neal Stephenson, but not the other authors.
+Action: search_books
+Action Input: Neil Gaiman| |
+ABORTED: step budget of 3 exhausted without a Final Answer
+
+STOP: STEP_BUDGET | LLM calls: 3 | tool calls: 2 | tokens: 1672
+  search_books("Octavia E. Butler| |") -> 237 chars
+  search_books("Neal Stephenson| |") -> 229 chars

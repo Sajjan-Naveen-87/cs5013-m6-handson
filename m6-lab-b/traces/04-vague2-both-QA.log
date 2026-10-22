@@ -1,0 +1,18 @@
+QUERY: How many books did Ursula Le Guin write in the 1970s?
+PROMPT TEMPLATE: prompts/react-vague2-both.txt
+BUDGETS: steps=8, tokens=unlimited
+
+=== step 1 (prompt 1056 chars; this call 366 tok; total 366 tok)
+Thought: I need to search for Ursula Le Guin's books from the 1970s.
+Action: search_books
+Action Input: Ursula Le Guin|1970|1979
+[tool] search_books("Ursula Le Guin|1970|1979") -> 122 chars
+Observation: [
+  {"id": "b002", "title": "The Dispossessed", "author": "Ursula K. Le Guin", "year": 1974, "genre": "science fiction"}
+]
+=== step 2 (prompt 1321 chars; this call 451 tok; total 817 tok)
+Thought: The observation lists 1 book by Ursula Le Guin in the 1970s.
+Final Answer: 1
+
+STOP: FINAL_ANSWER | LLM calls: 2 | tool calls: 1 | tokens: 817
+  search_books("Ursula Le Guin|1970|1979") -> 122 chars

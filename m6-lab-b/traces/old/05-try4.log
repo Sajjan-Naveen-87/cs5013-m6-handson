@@ -1,0 +1,30 @@
+QUERY: In which decades did Octavia E. Butler, Neal Stephenson and Neil Gaiman publish books?
+PROMPT TEMPLATE: prompts/react.txt
+BUDGETS: steps=3, tokens=unlimited
+
+=== step 1 (prompt 1399 chars; this call 430 tok; total 430 tok)
+Thought: I need to filter books by author and then extract the decades from the publication years.
+Action: search_books
+Action Input: Octavia E. Butler| |
+[tool] search_books("Octavia E. Butler| |") -> 237 chars
+Observation: [
+  {"id": "b007", "title": "Kindred", "author": "Octavia E. Butler", "year": 1979, "genre": "science fiction"},
+  {"id": "b008", "title": "Parable of the Sower", "author": "Octavia E. Butler", "year": 1993, "genre": "science fiction"}
+]
+=== step 2 (prompt 1805 chars; this call 574 tok; total 1004 tok)
+Thought: The observation lists books by Octavia E. Butler, but I also need to consider Neal Stephenson and Neil Gaiman.
+Action: search_books
+Action Input: Octavia E. Butler|1990|2000
+[tool] search_books("Octavia E. Butler|1990|2000") -> 126 chars
+Observation: [
+  {"id": "b008", "title": "Parable of the Sower", "author": "Octavia E. Butler", "year": 1993, "genre": "science fiction"}
+]
+=== step 3 (prompt 2128 chars; this call 682 tok; total 1686 tok)
+Thought: Octavia E. Butler's books are mostly in the 1990s, but I still need to consider Neal Stephenson and Neil Gaiman.
+Action: search_books
+Action Input: Neal Stephenson|1990|2000
+ABORTED: step budget of 3 exhausted without a Final Answer
+
+STOP: STEP_BUDGET | LLM calls: 3 | tool calls: 2 | tokens: 1686
+  search_books("Octavia E. Butler| |") -> 237 chars
+  search_books("Octavia E. Butler|1990|2000") -> 126 chars

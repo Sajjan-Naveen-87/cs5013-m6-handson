@@ -1,0 +1,49 @@
+QUERY: In which decades did Octavia E. Butler, Neal Stephenson, Neil Gaiman and Brandon Sanderson publish books?
+PROMPT TEMPLATE: prompts/react.txt
+BUDGETS: steps=8, tokens=20000
+
+=== step 1 (prompt 1418 chars; this call 431 tok; total 431 tok)
+Thought: I need to filter books by authors and years.
+Action: search_books
+Action Input: Octavia E. Butler| |
+[tool] search_books("Octavia E. Butler| |") -> 237 chars
+Observation: [
+  {"id": "b007", "title": "Kindred", "author": "Octavia E. Butler", "year": 1979, "genre": "science fiction"},
+  {"id": "b008", "title": "Parable of the Sower", "author": "Octavia E. Butler", "year": 1993, "genre": "science fiction"}
+]
+=== step 2 (prompt 1779 chars; this call 559 tok; total 990 tok)
+Thought: The observation lists books by Octavia E. Butler, but not the others.
+Action: search_books
+Action Input: Neal Stephenson| |
+[tool] search_books("Neal Stephenson| |") -> 229 chars
+Observation: [
+  {"id": "b016", "title": "Snow Crash", "author": "Neal Stephenson", "year": 1992, "genre": "science fiction"},
+  {"id": "b017", "title": "Cryptonomicon", "author": "Neal Stephenson", "year": 1999, "genre": "science fiction"}
+]
+=== step 3 (prompt 2155 chars; this call 679 tok; total 1669 tok)
+Thought: The observation lists books by Neal Stephenson, but not the others.
+Action: search_books
+Action Input: Neil Gaiman| |
+[tool] search_books("Neil Gaiman| |") -> 227 chars
+Observation: [
+  {"id": "b021", "title": "American Gods", "author": "Neil Gaiman", "year": 2001, "genre": "fantasy"},
+  {"id": "b022", "title": "The Ocean at the End of the Lane", "author": "Neil Gaiman", "year": 2013, "genre": "fantasy"}
+]
+=== step 4 (prompt 2523 chars; this call 806 tok; total 2475 tok)
+Thought: The observation lists books by Neil Gaiman, but not the others.
+Action: search_books
+Action Input: Brandon Sanderson| |
+[tool] search_books("Brandon Sanderson| |") -> 218 chars
+Observation: [
+  {"id": "b019", "title": "The Way of Kings", "author": "Brandon Sanderson", "year": 2010, "genre": "fantasy"},
+  {"id": "b020", "title": "Mistborn", "author": "Brandon Sanderson", "year": 2006, "genre": "fantasy"}
+]
+=== step 5 (prompt 2884 chars; this call 942 tok; total 3417 tok)
+Thought: All authors have been observed, so I can answer now.
+Final Answer: 1979, 1992, 1993, 2001, 2006, 2010, 2013
+
+STOP: FINAL_ANSWER | LLM calls: 5 | tool calls: 4 | tokens: 3417
+  search_books("Octavia E. Butler| |") -> 237 chars
+  search_books("Neal Stephenson| |") -> 229 chars
+  search_books("Neil Gaiman| |") -> 227 chars
+  search_books("Brandon Sanderson| |") -> 218 chars

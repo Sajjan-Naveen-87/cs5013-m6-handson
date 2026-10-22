@@ -1,0 +1,18 @@
+QUERY: Which books in the catalogue were published in the 1990s?
+PROMPT TEMPLATE: prompts/react-vague4-inverted.txt
+BUDGETS: steps=8, tokens=unlimited
+
+=== step 1 (prompt 1165 chars; this call 370 tok; total 370 tok)
+Form A 
+Thought: I need to search for books published in the 1990s.
+Action: search_books
+Action Input: 1990|1999
+[tool] search_books("1990|1999") -> 2 chars
+Observation: []
+=== step 2 (prompt 1294 chars; this call 405 tok; total 775 tok)
+Form B 
+Thought: No books were found published in the 1990s.
+Final Answer: None
+
+STOP: FINAL_ANSWER | LLM calls: 2 | tool calls: 1 | tokens: 775
+  search_books("1990|1999") -> 2 chars
