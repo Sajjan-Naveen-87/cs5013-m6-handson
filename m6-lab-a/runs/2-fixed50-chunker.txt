@@ -1,0 +1,157 @@
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+Indexed 12 chunk(s) from sample-repo in 260 ms
+
+=== Q1: Where is the fine for an overdue loan computed?
+  hit: sample-repo/com/example/util/FinePolicy.java:1-37
+  hit: sample-repo/com/example/core/Loan.java:1-50
+  hit: sample-repo/com/example/core/LoanRegistry.java:1-43
+  hit: sample-repo/com/example/core/Loan.java:51-55
+  hit: sample-repo/com/example/core/Member.java:1-50
+  hit: sample-repo/com/example/api/ReportService.java:1-44
+  hit: sample-repo/com/example/api/LibraryService.java:1-50
+  hit: sample-repo/com/example/core/Book.java:1-50
+  retrieval: HIT (expected FinePolicy.java :: public BigDecimal computeFine(Loan loan, LocalDate today) {)
+--- A: The fine for an overdue loan is computed in the `computeFine` method of the `StandardFinePolicy` class, which is a concrete implementation of the `FinePolicy` interface.
+  (answered in 10.6 s)
+
+=== Q2: What class holds the catalogue of books, and how is it indexed?
+  hit: sample-repo/com/example/util/Catalog.java:1-50
+  hit: sample-repo/com/example/core/Book.java:1-50
+  hit: sample-repo/com/example/core/Book.java:51-66
+  hit: sample-repo/com/example/api/LibraryService.java:1-50
+  hit: sample-repo/com/example/core/LoanRegistry.java:1-43
+  hit: sample-repo/com/example/core/Member.java:51-54
+  hit: sample-repo/com/example/core/Member.java:1-50
+  hit: sample-repo/com/example/api/ReportService.java:1-44
+  retrieval: HIT (expected Catalog.java :: private final Map<String, Book> byIsbn)
+--- A: The class that holds the catalogue of books is `Catalog`. It is indexed by ISBN.
+  (answered in 5.8 s)
+
+=== Q3: How does the system decide a loan has been returned?
+  hit: sample-repo/com/example/core/Loan.java:1-50
+  hit: sample-repo/com/example/core/Loan.java:51-55
+  hit: sample-repo/com/example/core/LoanRegistry.java:1-43
+  hit: sample-repo/com/example/api/ReportService.java:1-44
+  hit: sample-repo/com/example/util/FinePolicy.java:1-37
+  hit: sample-repo/com/example/core/Member.java:1-50
+  hit: sample-repo/com/example/core/Member.java:51-54
+  hit: sample-repo/com/example/api/LibraryService.java:1-50
+  retrieval: HIT (expected Loan.java :: public void markReturned(LocalDate day))
+--- A: The system decides a loan has been returned by checking if the `returnedOn` field of the `Loan` object is not null. 
+
+This is implemented in the `isOverdue` method of the `Loan` class, specifically in the line `return ChronoUnit.DAYS.between(borrowedOn, today) > DEFAULT_TERM_DAYS;`.
+  (answered in 19.0 s)
+
+=== Q4: What is the maximum fine the policy allows?
+  hit: sample-repo/com/example/util/FinePolicy.java:1-37
+  hit: sample-repo/com/example/core/Loan.java:1-50
+  hit: sample-repo/com/example/core/Book.java:1-50
+  hit: sample-repo/com/example/core/LoanRegistry.java:1-43
+  hit: sample-repo/com/example/core/Loan.java:51-55
+  hit: sample-repo/com/example/core/Member.java:1-50
+  hit: sample-repo/com/example/api/ReportService.java:1-44
+  hit: sample-repo/com/example/api/LibraryService.java:1-50
+  retrieval: HIT (expected FinePolicy.java :: CAP = new BigDecimal("500.00"))
+--- A: The maximum fine allowed by the policy is 500 rupees. 
+
+This is because in the `StandardFinePolicy` class, the `computeFine` method returns `CAP` if the fine exceeds 500 rupees. 
+
+The constant `CAP` is defined as `new BigDecimal("500.00")`.
+  (answered in 17.3 s)
+
+=== Q5: Which methods write to the loan registry?
+  hit: sample-repo/com/example/core/LoanRegistry.java:1-43
+  hit: sample-repo/com/example/core/Loan.java:1-50
+  hit: sample-repo/com/example/api/ReportService.java:1-44
+  hit: sample-repo/com/example/core/Loan.java:51-55
+  hit: sample-repo/com/example/core/Member.java:1-50
+  hit: sample-repo/com/example/util/FinePolicy.java:1-37
+  hit: sample-repo/com/example/api/LibraryService.java:1-50
+  hit: sample-repo/com/example/core/Book.java:1-50
+  retrieval: HIT (expected LoanRegistry.java :: public void record(Loan loan))
+--- A: The methods that write to the loan registry are `record(Loan loan)` in `LoanRegistry.java` and `borrow(String memberId, Member member, String isbn, LocalDate today)` in `LibraryService.java`.
+  (answered in 10.3 s)
+
+=== Q6: How many books can a member have on loan at the same time?
+  hit: sample-repo/com/example/core/Loan.java:1-50
+  hit: sample-repo/com/example/core/Book.java:1-50
+  hit: sample-repo/com/example/core/LoanRegistry.java:1-43
+  hit: sample-repo/com/example/core/Member.java:1-50
+  hit: sample-repo/com/example/core/Book.java:51-66
+  hit: sample-repo/com/example/api/LibraryService.java:1-50
+  hit: sample-repo/com/example/core/Loan.java:51-55
+  hit: sample-repo/com/example/api/ReportService.java:1-44
+  retrieval: HIT (expected Member.java :: activeLoans.size() >= 5)
+--- A: I don't find that in the passages.
+  (answered in 1.2 s)
+
+=== Q7: How many days is the default loan term?
+  hit: sample-repo/com/example/core/Loan.java:51-55
+  hit: sample-repo/com/example/core/Loan.java:1-50
+  hit: sample-repo/com/example/core/LoanRegistry.java:1-43
+  hit: sample-repo/com/example/util/FinePolicy.java:1-37
+  hit: sample-repo/com/example/core/Member.java:1-50
+  hit: sample-repo/com/example/api/LibraryService.java:1-50
+  hit: sample-repo/com/example/api/ReportService.java:1-44
+  hit: sample-repo/com/example/core/Book.java:1-50
+  retrieval: HIT (expected Loan.java :: DEFAULT_TERM_DAYS = 21)
+--- A: The answer is in the `Loan` class, in the `DEFAULT_TERM_DAYS` constant, which is set to 21.
+  (answered in 2.3 s)
+
+=== Q8: How does searching for a book by title work?
+  hit: sample-repo/com/example/core/Book.java:51-66
+  hit: sample-repo/com/example/util/Catalog.java:1-50
+  hit: sample-repo/com/example/core/Book.java:1-50
+  hit: sample-repo/com/example/core/Member.java:51-54
+  hit: sample-repo/com/example/core/Loan.java:1-50
+  hit: sample-repo/com/example/core/LoanRegistry.java:1-43
+  hit: sample-repo/com/example/api/LibraryService.java:1-50
+  hit: sample-repo/com/example/core/Member.java:1-50
+  retrieval: HIT (expected Catalog.java :: public List<Book> searchByTitle(String needle))
+--- A: The `searchByTitle` method in the `Catalog` class is used to search for books by title. It performs a case-insensitive substring search over the title.
+  (answered in 2.6 s)
+
+=== Q9: When are two Book objects considered equal?
+  hit: sample-repo/com/example/core/Book.java:51-66
+  hit: sample-repo/com/example/core/Book.java:1-50
+  hit: sample-repo/com/example/core/Member.java:51-54
+  hit: sample-repo/com/example/core/Loan.java:1-50
+  hit: sample-repo/com/example/util/Catalog.java:1-50
+  hit: sample-repo/com/example/api/LibraryService.java:1-50
+  hit: sample-repo/com/example/core/LoanRegistry.java:1-43
+  hit: sample-repo/com/example/core/Member.java:1-50
+  retrieval: HIT (expected Book.java :: public boolean equals(Object o))
+--- A: The `equals` method in the `Book` class is used to determine when two `Book` objects are considered equal. It checks if the ISBNs of the two books are equal. 
+
+`Book.equals(Object o)`
+  (answered in 3.3 s)
+
+=== Q10: How does the report count loans per genre?
+  hit: sample-repo/com/example/api/ReportService.java:1-44
+  hit: sample-repo/com/example/core/LoanRegistry.java:1-43
+  hit: sample-repo/com/example/core/Loan.java:1-50
+  hit: sample-repo/com/example/core/Book.java:1-50
+  hit: sample-repo/com/example/core/Member.java:1-50
+  hit: sample-repo/com/example/core/Loan.java:51-55
+  hit: sample-repo/com/example/api/LibraryService.java:1-50
+  hit: sample-repo/com/example/core/Book.java:51-66
+  retrieval: HIT (expected ReportService.java :: public Map<String, Integer> loansByGenre())
+--- A: The `loansByGenre()` method in the `ReportService` class is used to count loans per genre.
+  (answered in 3.2 s)
+
+=== Q11: How does the system send email reminders to members using Spring's JavaMailSender?
+  hit: sample-repo/com/example/core/Member.java:1-50
+  hit: sample-repo/com/example/api/LibraryService.java:1-50
+  hit: sample-repo/com/example/api/ReportService.java:1-44
+  hit: sample-repo/com/example/core/Book.java:1-50
+  hit: sample-repo/com/example/util/FinePolicy.java:1-37
+  hit: sample-repo/com/example/core/LoanRegistry.java:1-43
+  hit: sample-repo/com/example/core/Loan.java:1-50
+  hit: sample-repo/com/example/core/Loan.java:51-55
+  retrieval: (not in corpus; not scored)
+--- A: I do not find that in the passages.
+  (answered in 2.8 s)
+
+Retrieval hit-rate @8: 10/10 = 1.00

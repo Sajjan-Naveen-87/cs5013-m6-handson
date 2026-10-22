@@ -1,0 +1,247 @@
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+Indexed 51 chunk(s) from sample-repo in 728 ms
+
+=== Q1: Where is the fine for an overdue loan computed?
+  hit: sample-repo/com/example/core/Loan.java:45-54
+  hit: sample-repo/com/example/util/FinePolicy.java:9-20
+  hit: sample-repo/com/example/core/LoanRegistry.java:34-42
+  hit: sample-repo/com/example/api/ReportService.java:28-30
+  hit: sample-repo/com/example/api/LibraryService.java:43-45
+  hit: sample-repo/com/example/util/FinePolicy.java:27-36
+  hit: sample-repo/com/example/core/Loan.java:33-35
+  hit: sample-repo/com/example/core/Loan.java:6-55
+  retrieval: HIT (expected FinePolicy.java :: public BigDecimal computeFine(Loan loan, LocalDate today) {)
+--- A: The fine for an overdue loan is computed in the `computeFine` method of the `FinePolicy` interface, specifically in the `StandardFinePolicy` class, which is a concrete implementation of the `FinePolicy` interface. The fine is calculated as follows:
+
+1. First, it checks if the loan is overdue by calling the `isOverdue` method on the loan object. If the loan is not overdue, it returns a fine of 0.
+2. If the loan is overdue, it calculates the number of days late by subtracting the default term days from the difference between the borrowed on date and the current date.
+3. It then multiplies the number of days late by the per day fine (defined as `PER_DAY`) to get the total fine.
+4. Finally, it caps the fine at 500 rupees (defined as `CAP`) if the fine exceeds this amount.
+
+So, the fine for an overdue loan is computed in the `computeFine` method of the `StandardFinePolicy` class, which is located in the `sample-repo/com/example/util/FinePolicy.java` file.
+  (answered in 14.0 s)
+
+=== Q2: What class holds the catalogue of books, and how is it indexed?
+  hit: sample-repo/com/example/util/Catalog.java:11-55
+  hit: sample-repo/com/example/core/Book.java:6-66
+  hit: sample-repo/com/example/util/Catalog.java:23-25
+  hit: sample-repo/com/example/api/LibraryService.java:47-49
+  hit: sample-repo/com/example/util/Catalog.java:19-21
+  hit: sample-repo/com/example/core/Book.java:27-29
+  hit: sample-repo/com/example/util/Catalog.java:27-40
+  hit: sample-repo/com/example/api/LibraryService.java:30-41
+  retrieval: HIT (expected Catalog.java :: private final Map<String, Book> byIsbn)
+--- A: The class that holds the catalogue of books is `Catalog`. 
+
+The catalogue is indexed by ISBN, which is a unique identifier for each book. The `byIsbn` field in the `Catalog` class is a `Map` that stores `Book` objects keyed by their ISBN. This allows for efficient lookup of books by their ISBN.
+
+The `findByIsbn` method in the `Catalog` class uses this map to retrieve a book by its ISBN, returning an `Optional` containing the book if found, or an empty `Optional` if not found.
+
+The `searchByTitle` method in the `Catalog` class performs a case-insensitive substring search over the book titles, returning a list of books whose titles contain the search needle. This method is intended for development and testing purposes only, as it does not use a proper index and is not suitable for production use.
+
+Note that the `Book` class has a `getIsbn` method that returns the ISBN of the book, which is used to index the catalogue.
+  (answered in 49.7 s)
+
+=== Q3: How does the system decide a loan has been returned?
+  hit: sample-repo/com/example/core/Loan.java:45-54
+  hit: sample-repo/com/example/core/Loan.java:6-55
+  hit: sample-repo/com/example/core/Loan.java:37-39
+  hit: sample-repo/com/example/core/Loan.java:33-35
+  hit: sample-repo/com/example/core/LoanRegistry.java:8-43
+  hit: sample-repo/com/example/core/LoanRegistry.java:24-32
+  hit: sample-repo/com/example/core/LoanRegistry.java:34-42
+  hit: sample-repo/com/example/core/LoanRegistry.java:16-18
+  retrieval: HIT (expected Loan.java :: public void markReturned(LocalDate day))
+--- A: The system decides a loan has been returned by checking the `returnedOn` field of the `Loan` object. If `returnedOn` is not null, it means the loan has been returned and the `isOverdue` method will return false.
+  (answered in 12.4 s)
+
+=== Q4: What is the maximum fine the policy allows?
+  hit: sample-repo/com/example/util/FinePolicy.java:9-20
+  hit: sample-repo/com/example/util/FinePolicy.java:27-36
+  hit: sample-repo/com/example/util/FinePolicy.java:22-37
+  hit: sample-repo/com/example/api/LibraryService.java:43-45
+  hit: sample-repo/com/example/core/Member.java:41-49
+  hit: sample-repo/com/example/util/FinePolicy.java:17-19
+  hit: sample-repo/com/example/core/Loan.java:6-55
+  hit: sample-repo/com/example/api/LibraryService.java:24-28
+  retrieval: HIT (expected FinePolicy.java :: CAP = new BigDecimal("500.00"))
+--- A: The maximum fine allowed by the policy is 500 rupees.
+  (answered in 3.6 s)
+
+=== Q5: Which methods write to the loan registry?
+  hit: sample-repo/com/example/core/LoanRegistry.java:8-43
+  hit: sample-repo/com/example/core/LoanRegistry.java:16-18
+  hit: sample-repo/com/example/core/Loan.java:6-55
+  hit: sample-repo/com/example/core/LoanRegistry.java:34-42
+  hit: sample-repo/com/example/api/ReportService.java:11-44
+  hit: sample-repo/com/example/core/LoanRegistry.java:24-32
+  hit: sample-repo/com/example/core/Loan.java:45-54
+  hit: sample-repo/com/example/core/LoanRegistry.java:20-22
+  retrieval: HIT (expected LoanRegistry.java :: public void record(Loan loan))
+--- A: The methods that write to the loan registry are:
+
+1. `record(Loan loan)`: This method adds a new loan to the `history` list in the `LoanRegistry` class.
+2. `loansFor(String memberId)`: This method adds a new loan to the `history` list in the `LoanRegistry` class for a specific member ID.
+
+These methods are responsible for updating the loan registry by adding new loans or updating existing ones for a specific member.
+  (answered in 23.1 s)
+
+=== Q6: How many books can a member have on loan at the same time?
+  hit: sample-repo/com/example/core/Loan.java:6-55
+  hit: sample-repo/com/example/core/Member.java:41-49
+  hit: sample-repo/com/example/core/Book.java:6-66
+  hit: sample-repo/com/example/core/Loan.java:19-23
+  hit: sample-repo/com/example/api/LibraryService.java:30-41
+  hit: sample-repo/com/example/api/ReportService.java:32-43
+  hit: sample-repo/com/example/core/Loan.java:25-27
+  hit: sample-repo/com/example/core/LoanRegistry.java:24-32
+  retrieval: HIT (expected Member.java :: activeLoans.size() >= 5)
+--- A: The number of books a member can have on loan at the same time is capped at 5. This is enforced by the `Member` class, which throws an `IllegalStateException` when the member has reached the maximum of 5 open loans.
+  (answered in 12.3 s)
+
+=== Q7: How many days is the default loan term?
+  hit: sample-repo/com/example/core/Loan.java:45-54
+  hit: sample-repo/com/example/core/Loan.java:6-55
+  hit: sample-repo/com/example/util/FinePolicy.java:27-36
+  hit: sample-repo/com/example/core/Loan.java:37-39
+  hit: sample-repo/com/example/core/Loan.java:33-35
+  hit: sample-repo/com/example/core/Loan.java:41-43
+  hit: sample-repo/com/example/core/LoanRegistry.java:34-42
+  hit: sample-repo/com/example/core/LoanRegistry.java:8-43
+  retrieval: HIT (expected Loan.java :: DEFAULT_TERM_DAYS = 21)
+--- A: The default loan term is 21 days.
+  (answered in 2.6 s)
+
+=== Q8: How does searching for a book by title work?
+  hit: sample-repo/com/example/util/Catalog.java:27-40
+  hit: sample-repo/com/example/api/LibraryService.java:47-49
+  hit: sample-repo/com/example/core/Book.java:31-33
+  hit: sample-repo/com/example/core/Book.java:62-65
+  hit: sample-repo/com/example/util/Catalog.java:11-55
+  hit: sample-repo/com/example/api/LibraryService.java:30-41
+  hit: sample-repo/com/example/util/Catalog.java:23-25
+  hit: sample-repo/com/example/core/Book.java:27-29
+  retrieval: HIT (expected Catalog.java :: public List<Book> searchByTitle(String needle))
+--- A: Searching for a book by title in this Java repository works by utilizing the `searchByTitle` method in the `Catalog` class. This method takes a `needle` string as input, converts it to lowercase, and then iterates over the `byIsbn` map. For each book in the map, it checks if the book's title (also converted to lowercase) contains the `needle` string. If a match is found, the book is added to the `out` list, which is then returned.
+
+Here's a step-by-step breakdown of the process:
+
+1. The `searchByTitle` method is called with a `needle` string as input.
+2. The `needle` string is converted to lowercase to ensure case-insensitive searching.
+3. An empty list `out` is initialized to store the matching books.
+4. The `byIsbn` map is iterated over, and for each book, the following checks are performed:
+   - The book's title is converted to lowercase.
+   - The lowercase book title is checked if it contains the `needle` string.
+   - If a match is found, the book is added to the `out` list.
+5. The `out` list is returned, containing all books whose titles match the `needle` string.
+
+Note that this implementation is not intended for production use, as it lacks tokenization and other features that would be necessary for a robust search system.
+  (answered in 69.0 s)
+
+=== Q9: When are two Book objects considered equal?
+  hit: sample-repo/com/example/core/Book.java:47-55
+  hit: sample-repo/com/example/core/Book.java:6-66
+  hit: sample-repo/com/example/core/Book.java:19-25
+  hit: sample-repo/com/example/util/Catalog.java:42-50
+  hit: sample-repo/com/example/util/Catalog.java:19-21
+  hit: sample-repo/com/example/api/LibraryService.java:30-41
+  hit: sample-repo/com/example/core/Member.java:51-53
+  hit: sample-repo/com/example/core/Book.java:27-29
+  retrieval: HIT (expected Book.java :: public boolean equals(Object o))
+--- A: Two Book objects are considered equal if they share the same ISBN. This is implemented in the `equals` method of the Book class, which checks if the ISBN of the current object is equal to the ISBN of the object being compared.
+  (answered in 11.6 s)
+
+=== Q10: How does the report count loans per genre?
+  hit: sample-repo/com/example/api/ReportService.java:32-43
+  hit: sample-repo/com/example/api/ReportService.java:11-44
+  hit: sample-repo/com/example/core/LoanRegistry.java:8-43
+  hit: sample-repo/com/example/core/Loan.java:6-55
+  hit: sample-repo/com/example/api/ReportService.java:20-22
+  hit: sample-repo/com/example/core/LoanRegistry.java:16-18
+  hit: sample-repo/com/example/core/LoanRegistry.java:20-22
+  hit: sample-repo/com/example/api/ReportService.java:24-26
+  retrieval: HIT (expected ReportService.java :: public Map<String, Integer> loansByGenre())
+--- A: The `loansByGenre()` method in the `ReportService` class counts the number of loans per genre by iterating over all loans in the `LoanRegistry` and merging the genres with their corresponding counts in a `HashMap`. The `merge()` method is used to increment the count for each genre, and the `Integer::sum` argument specifies that the counts should be summed up.
+
+Here's a step-by-step explanation:
+
+1. A new `HashMap` called `counts` is created to store the genre counts.
+2. The `registry.allLoans()` method is called to get a list of all loans in the `LoanRegistry`.
+3. For each loan, the `getBook().getGenre()` method is called to get the genre of the loan.
+4. The `counts.merge(g, 1, Integer::sum)` method is called to increment the count for the genre `g` by 1. The `Integer::sum` argument specifies that the counts should be summed up.
+5. Finally, the `counts` map is returned, containing the genre counts.
+
+This method is useful for generating reports on the number of loans per genre, as mentioned in the JavaDoc comment.
+  (answered in 57.6 s)
+
+=== Q11: How does the system send email reminders to members using Spring's JavaMailSender?
+  hit: sample-repo/com/example/core/Member.java:25-27
+  hit: sample-repo/com/example/core/Member.java:33-35
+  hit: sample-repo/com/example/core/Member.java:19-23
+  hit: sample-repo/com/example/core/Loan.java:41-43
+  hit: sample-repo/com/example/core/Member.java:29-31
+  hit: sample-repo/com/example/core/Book.java:35-37
+  hit: sample-repo/com/example/core/Member.java:8-54
+  hit: sample-repo/com/example/api/ReportService.java:28-30
+  retrieval: (not in corpus; not scored)
+--- A: To send email reminders to members using Spring's JavaMailSender, you can follow these steps:
+
+1.  **Create a JavaMailSender bean**: In your Spring configuration file (e.g., `application.properties` or `application.yml`), add the following configuration to create a JavaMailSender bean:
+
+    ```properties
+spring.mail:
+  host: your-smtp-host
+  port: your-smtp-port
+  username: your-smtp-username
+  password: your-smtp-password
+```
+
+    Alternatively, you can use the `@Bean` annotation to create a JavaMailSender bean:
+
+    ```java
+@Bean
+public JavaMailSender javaMailSender() {
+    JavaMailSenderImpl sender = new JavaMailSenderImpl();
+    sender.setHost("your-smtp-host");
+    sender.setPort("your-smtp-port");
+    sender.setUsername("your-smtp-username");
+    sender.setPassword("your-smtp-password");
+    return sender;
+}
+```
+
+2.  **Create a service class to send email reminders**: Create a service class that will be responsible for sending email reminders to members. This class will use the JavaMailSender bean to send emails.
+
+    ```java
+@Service
+public class ReminderService {
+    
+    @Autowired
+    private JavaMailSender javaMailSender;
+    
+    @Autowired
+    private MemberRepository memberRepository;
+    
+    @Autowired
+    private ReportService reportService;
+    
+    public void sendReminders() {
+        List<Member> members = memberRepository.findAll();
+        
+        for (Member member : members) {
+            LocalDate today = LocalDate.now();
+            List<Loan> overdueLoans = reportService.overdue(today);
+            
+            if (!overdueLoans.isEmpty()) {
+                // Create a new email
+                SimpleMailMessage message = new SimpleMailMessage();
+                message.setTo(member.getName());
+                message.setSubject("Overdue Loan Reminder");
+                message.setText("You have an overdue loan.");
+                
+                // Send the email
+  (answered in 92.5 s)
+
+Retrieval hit-rate @8: 10/10 = 1.00
